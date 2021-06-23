@@ -12,7 +12,7 @@ export class CreateUserService {
 
         const repository = getCustomRepository(UsersRepository);
 
-        const userAlreadyExists = await repository.findOne({ where: { email } });
+        const userAlreadyExists = await repository.findOne({ email });
 
         if (userAlreadyExists) {
             throw new Error(`User ${email} already exists!`);
