@@ -3,11 +3,12 @@ import { User } from "../../entities/User";
 import { UsersRepository } from "../../repositories/UsersRepository";
 import { hash } from "bcrypt";
 import { getCustomRepository } from "typeorm";
+import { AppError } from "../../errors/AppError";
 
 export class CreateUserService {
     async execute({ name, email, password, admin }: ICreateUserDTO): Promise<User> {
         if (!email) {
-            throw new Error('Email Incorrect!');
+            throw new AppError('Email Incorrect!');
         }
 
         const repository = getCustomRepository(UsersRepository);
@@ -15,7 +16,7 @@ export class CreateUserService {
         const userAlreadyExists = await repository.findOne({ email });
 
         if (userAlreadyExists) {
-            throw new Error(`User ${email} already exists!`);
+            throw new AppError(`User ${email} already exists!`);
         }
 
         const hashedPassword = await hash(password, 8);
