@@ -6,7 +6,7 @@ import { getCustomRepository } from "typeorm";
 import { AppError } from "../../errors/AppError";
 
 export class CreateUserService {
-    async execute({ name, email, password, admin }: ICreateUserDTO): Promise<User> {
+    async execute({ name, email, password, admin = false }: ICreateUserDTO): Promise<User> {
         if (!email) {
             throw new AppError('Email Incorrect!');
         }
@@ -29,6 +29,8 @@ export class CreateUserService {
         });
 
         await repository.save(newUser);
+
+        newUser.password = undefined;
 
         return newUser;
     }
