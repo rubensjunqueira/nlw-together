@@ -5,6 +5,7 @@
   "author": "Rubens Junqueira <rubens.junqueira@outlook.com>",
   "license": "MIT",
   "scripts": {
+    "setup": "rm ./src/database/db.sqlite && touch ./src/database/db.sqlite && yarn typeorm migration:run",
     "dev": "ts-node-dev src/server.ts",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js"
   },

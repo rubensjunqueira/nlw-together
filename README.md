@@ -16,9 +16,9 @@ Projeto criado a partir das aulas do programa Next Level Week ([Rocketseat](http
  ```
     yarn
  ```
- 4. Execute as *migrations* para criar as tabelas no banco de dados
+ 4. Execute para configurar o banco de dados
  ```
-    yarn typeorm migration:run
+    yarn setup
  ```
  5. Inicie a aplicação
  ```
