@@ -1,5 +1,5 @@
 import { getCustomRepository } from "typeorm";
-import { UsersRepository } from "../../repositories/UsersRepository";
+import { UsersRepository } from "../../repositories/User/typeorm/UsersRepository";
 import { classToPlain } from 'class-transformer';
 
 export class ListUsersService {

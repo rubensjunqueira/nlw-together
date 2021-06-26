@@ -1,7 +1,7 @@
 import { getCustomRepository } from "typeorm";
 import { Tag } from "../../entities/Tag";
-import { TagsRepository } from "../../repositories/TagsRepository";
 import { classToPlain } from 'class-transformer';
+import { TagsRepository } from "../../repositories/Tags/TagsRepository";
 
 export class ListTagService {
     async execute(): Promise<Record<string, any>> {

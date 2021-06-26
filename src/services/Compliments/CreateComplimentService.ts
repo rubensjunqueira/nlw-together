@@ -2,8 +2,8 @@ import { getCustomRepository } from "typeorm";
 import { ICreateComplimentDTO } from "../../DTOs/Compliments/ICreateComplimentDTO";
 import { Compliment } from "../../entities/Compliment";
 import { AppError } from "../../errors/AppError";
-import { ComplimentsRepository } from "../../repositories/ComplimentsRepository";
-import { UsersRepository } from "../../repositories/UsersRepository";
+import { ComplimentsRepository } from "../../repositories/Compliments/ComplimentsRepository";
+import { UsersRepository } from "../../repositories/User/typeorm/UsersRepository";
 
 export class CreateComplimentService {
     async execute({

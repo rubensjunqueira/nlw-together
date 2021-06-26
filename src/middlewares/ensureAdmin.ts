@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { getCustomRepository } from "typeorm";
 import { AppError } from "../errors/AppError";
-import { UsersRepository } from "../repositories/UsersRepository";
+import { UsersRepository } from "../repositories/User/typeorm/UsersRepository";
 
 export async function ensureAdmin(req: Request, res: Response, next: NextFunction) {
     const { user_id } = req;

@@ -1,37 +1,35 @@
 import { ICreateUserDTO } from "../../DTOs/Users/ICreateUserDTO";
-import { User } from "../../entities/User";
-import { UsersRepository } from "../../repositories/UsersRepository";
 import { hash } from "bcrypt";
-import { getCustomRepository } from "typeorm";
 import { AppError } from "../../errors/AppError";
+import { IService } from "../IService";
+import { IUsersRepository } from "../../repositories/User/IUsersRepository";
+import { classToPlain } from "class-transformer";
+import { EmailInvalidError } from "../../errors/EmailInvalidError";
+import { UserAlreadyExists } from "../../errors/UserAlreadyExists";
 
-export class CreateUserService {
-    async execute({ name, email, password, admin = false }: ICreateUserDTO): Promise<User> {
+export class CreateUserService implements IService<ICreateUserDTO, Record<string, any>> {
+    constructor(private usersRepository: IUsersRepository) { }
+
+    async execute({ name, email, password, admin = false }: ICreateUserDTO): Promise<Record<string, any>> {
         if (!email) {
-            throw new AppError('Email Incorrect!');
+            throw new EmailInvalidError('Email Incorrect!');
         }
 
-        const repository = getCustomRepository(UsersRepository);
-
-        const userAlreadyExists = await repository.findOne({ email });
+        const userAlreadyExists = await this.usersRepository.findByEmail(email);
 
         if (userAlreadyExists) {
-            throw new AppError(`User ${email} already exists!`);
+            throw new UserAlreadyExists(`User ${email} already exists!`);
         }
 
         const hashedPassword = await hash(password, 8);
 
-        const newUser = repository.create({
+        const newUser = await this.usersRepository.create({
             name,
             email,
             password: hashedPassword,
             admin
         });
 
-        await repository.save(newUser);
-
-        newUser.password = undefined;
-
-        return newUser;
+        return classToPlain(newUser);
     }
 }

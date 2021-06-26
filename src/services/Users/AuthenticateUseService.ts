@@ -2,10 +2,10 @@ import { compare } from "bcrypt";
 import { getCustomRepository } from "typeorm";
 import { IAuthenticateUserDTO } from "../../DTOs/Users/IAuthenticateUserDTO";
 import { AppError } from "../../errors/AppError";
-import { UsersRepository } from "../../repositories/UsersRepository";
 import { sign } from 'jsonwebtoken';
 import { IAuthenticateUserResponseDTO } from "../../DTOs/Users/IAuthenticateUserResponseDTO";
 import { Auth } from "../../config/Auth";
+import { UsersRepository } from "../../repositories/User/typeorm/UsersRepository";
 
 export class AuthenticateUserService {
     async execute({ email, password }: IAuthenticateUserDTO)
