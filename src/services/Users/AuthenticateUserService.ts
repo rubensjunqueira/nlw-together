@@ -1,12 +1,13 @@
 import { compare } from "bcrypt";
 import { IAuthenticateUserDTO } from "../../DTOs/Users/IAuthenticateUserDTO";
-import { AppError } from "../../errors/AppError";
 import { sign } from 'jsonwebtoken';
 import { IAuthenticateUserResponseDTO } from "../../DTOs/Users/IAuthenticateUserResponseDTO";
 import { Auth } from "../../config/Auth";
 import { IUsersRepository } from "../../repositories/User/IUsersRepository";
-import { inject } from "tsyringe";
+import { inject, injectable } from "tsyringe";
+import { InvalidEmailOrPassword } from "../../errors/InvalidEmailrOrPassword";
 
+@injectable()
 export class AuthenticateUserService {
     constructor(
         @inject("UsersRepository")
@@ -15,15 +16,13 @@ export class AuthenticateUserService {
 
     async execute({ email, password }: IAuthenticateUserDTO)
         : Promise<IAuthenticateUserResponseDTO> {
-
         const user = await this.usersRepository.findByEmail(email);
 
-        if (!user) throw new AppError('Email or password invalid!');
-
+        if (!user) throw new InvalidEmailOrPassword();
 
         const comparePassword = await compare(password, user.password);
 
-        if (!comparePassword) throw new AppError('Email or password invalid!')
+        if (!comparePassword) throw new InvalidEmailOrPassword();
 
 
         const token = sign({ email: user.email }, Auth.secret, {

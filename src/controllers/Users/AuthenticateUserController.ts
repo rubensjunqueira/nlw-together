@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { container } from "tsyringe";
-import { AuthenticateUserService } from "../../services/Users/AuthenticateUseService";
+import { AuthenticateUserService } from "../../services/Users/AuthenticateUserService";
 
 export class AuthenticateUserController {
     async handle(req: Request, res: Response): Promise<Response> {
