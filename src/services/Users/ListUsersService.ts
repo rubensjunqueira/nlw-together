@@ -1,12 +1,17 @@
 import { getCustomRepository } from "typeorm";
 import { UsersRepository } from "../../repositories/User/typeorm/UsersRepository";
 import { classToPlain } from 'class-transformer';
+import { inject, injectable } from "tsyringe";
+import { IUsersRepository } from "../../repositories/User/IUsersRepository";
 
+@injectable()
 export class ListUsersService {
-    async execute(): Promise<Record<string, any>> {
-        const repository = getCustomRepository(UsersRepository);
+    constructor(
+        @inject("UsersRepository") private usersRepository: IUsersRepository
+    ) { }
 
-        const users = await repository.find();
+    async execute(): Promise<Record<string, any>> {
+        const users = await this.usersRepository.list();
 
         return classToPlain(users);
     }

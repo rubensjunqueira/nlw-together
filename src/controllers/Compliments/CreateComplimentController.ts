@@ -3,18 +3,18 @@ import { CreateComplimentService } from "../../services/Compliments/CreateCompli
 
 export class CreateComplimentController {
     async handle(req: Request, res: Response): Promise<Response> {
-        const { user_receiver, message, tag_id } = req.body;
-        const { user_id: user_sender } = req;
+        // const { user_receiver, message, tag_id } = req.body;
+        // const { user_id: user_sender } = req;
 
-        const createComplimentService = new CreateComplimentService();
+        // const createComplimentService = new CreateComplimentService();
 
-        const createdCompliment = await createComplimentService.execute({
-            user_sender,
-            user_receiver,
-            message,
-            tag_id
-        });
+        // const createdCompliment = await createComplimentService.execute({
+        //     user_sender,
+        //     user_receiver,
+        //     message,
+        //     tag_id
+        // });
 
-        return res.status(201).json(createdCompliment);
+        return res.status(201).json();
     }
 }

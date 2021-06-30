@@ -1,18 +1,22 @@
 import { compare } from "bcrypt";
-import { getCustomRepository } from "typeorm";
 import { IAuthenticateUserDTO } from "../../DTOs/Users/IAuthenticateUserDTO";
 import { AppError } from "../../errors/AppError";
 import { sign } from 'jsonwebtoken';
 import { IAuthenticateUserResponseDTO } from "../../DTOs/Users/IAuthenticateUserResponseDTO";
 import { Auth } from "../../config/Auth";
-import { UsersRepository } from "../../repositories/User/typeorm/UsersRepository";
+import { IUsersRepository } from "../../repositories/User/IUsersRepository";
+import { inject } from "tsyringe";
 
 export class AuthenticateUserService {
+    constructor(
+        @inject("UsersRepository")
+        private usersRepository: IUsersRepository
+    ) { }
+
     async execute({ email, password }: IAuthenticateUserDTO)
         : Promise<IAuthenticateUserResponseDTO> {
-        const repository = getCustomRepository(UsersRepository);
 
-        const user = await repository.findOne({ email });
+        const user = await this.usersRepository.findByEmail(email);
 
         if (!user) throw new AppError('Email or password invalid!');
 

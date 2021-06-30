@@ -1,21 +1,20 @@
-import { getCustomRepository } from "typeorm";
+import { inject, injectable } from "tsyringe";
 import { Tag } from "../../entities/Tag";
 import { AppError } from "../../errors/AppError";
-import { TagsRepository } from "../../repositories/Tags/TagsRepository";
+import { ITagsRepository } from "../../repositories/Tags/ITagsRepository";
 
+@injectable()
 export class CreateTagService {
+    constructor(@inject("TagsRepository") private tagsRepository: ITagsRepository) { }
+
     async execute(name: string): Promise<Tag> {
-        if (!name || name.length === 0 ) throw new AppError('Name must not be empty!')
+        if (!name || name.length === 0) throw new AppError('Name must not be empty!')
 
-        const repository = getCustomRepository(TagsRepository);
-
-        const tagAlreadyExists = await repository.findOne({ name });
+        const tagAlreadyExists = await this.tagsRepository.findByName(name);
 
         if (tagAlreadyExists) throw new AppError(`Tag ${name} already exists!`);
 
-        const newTag = repository.create({ name });
-
-        await repository.save(newTag);
+        const newTag = await this.tagsRepository.create(name);
 
         return newTag;
     }
