@@ -1,15 +1,18 @@
-import { getCustomRepository } from "typeorm";
+import { inject, injectable } from "tsyringe";
 import { Compliment } from "../../entities/Compliment";
-import { ComplimentsRepository } from "../../repositories/Compliments/ComplimentsRepository";
+import { IComplimentsRepository } from "../../repositories/Compliments/IComplimentsRepository";
 
+@injectable()
 export class ListUserSendedComplimentsService {
+    constructor(
+        @inject("ComplimentsRepository")
+        private complimentsRepository: IComplimentsRepository
+    ) { }
+
     async execute(user_id: string): Promise<Compliment[]> {
-        const repository = getCustomRepository(ComplimentsRepository);
+        const complimentsReceived = await this.complimentsRepository.
+            findByUserSender(user_id);
 
-        const complimentsSended = await repository.find({
-            where: { user_sender: user_id }
-        });
-
-        return complimentsSended;
+        return complimentsReceived;
     }
 }
