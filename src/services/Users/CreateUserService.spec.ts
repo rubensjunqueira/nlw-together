@@ -10,7 +10,7 @@ describe('CreateUserService', () => {
     let repositoryInMemory: IUsersRepository;
     let createUserService: CreateUserService;
 
-    beforeAll(() => {
+    beforeEach(() => {
         repositoryInMemory = new UsersRepositoryInMemory();
         createUserService = new CreateUserService(repositoryInMemory);
     });
