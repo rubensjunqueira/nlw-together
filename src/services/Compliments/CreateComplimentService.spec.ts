@@ -2,8 +2,8 @@ import { ICreateComplimentDTO } from "../../DTOs/Compliments/ICreateComplimentDT
 import { Tag } from "../../entities/Tag";
 import { User } from "../../entities/User";
 import { ReceiverAndSenderAreEqualError } from "../../errors/ReceiverAndSenderAreEqualError";
-import { ReceiverNotExists } from "../../errors/ReceiverNotExists";
-import { TagNotExists } from "../../errors/TagNotExists";
+import { ReceiverNotExistsError } from "../../errors/ReceiverNotExistsError";
+import { TagNotExistsError } from "../../errors/TagNotExistsError";
 import { IComplimentsRepository } from "../../repositories/Compliments/IComplimentsRepository";
 import { ComplimentsRepositoryInMemory } from "../../repositories/Compliments/inMemory/ComplimentsRepositoryInMemory";
 import { TagsRepositoryInMemory } from "../../repositories/Tags/inMemory/TagsRepositoryInMemory";
@@ -44,7 +44,7 @@ describe('CreateComplimentService', () => {
             tag_id: 'dca36068-e9c5-549d-aba2-6b6c742a07ae',
             user_receiver: '64521262-5a99-5b54-a3f2-5956557d5977',
             user_sender: '0d92f057-9235-592a-b335-054f704c5290'
-        })).rejects.toBeInstanceOf(TagNotExists);
+        })).rejects.toBeInstanceOf(TagNotExistsError);
     });
 
     it('should not be able to create a new compliment if user_receiver does not exists', async () => {
@@ -72,7 +72,7 @@ describe('CreateComplimentService', () => {
             tag_id: '983d487f-d4a3-532f-bd53-a1f16b5b3014',
             user_receiver: '64521262-5a99-5b54-a3f2-5956557d5977',
             user_sender: '0d92f057-9235-592a-b335-054f704c5290'
-        })).rejects.toBeInstanceOf(ReceiverNotExists);
+        })).rejects.toBeInstanceOf(ReceiverNotExistsError);
     });
 
     it('should be able to create an new compliment', async () => {

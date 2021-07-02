@@ -5,7 +5,7 @@ import { IAuthenticateUserResponseDTO } from "../../DTOs/Users/IAuthenticateUser
 import { Auth } from "../../config/Auth";
 import { IUsersRepository } from "../../repositories/User/IUsersRepository";
 import { inject, injectable } from "tsyringe";
-import { InvalidEmailOrPassword } from "../../errors/InvalidEmailrOrPassword";
+import { InvalidEmailOrPasswordError } from "../../errors/InvalidEmailrOrPasswordError";
 
 @injectable()
 export class AuthenticateUserService {
@@ -18,11 +18,11 @@ export class AuthenticateUserService {
         : Promise<IAuthenticateUserResponseDTO> {
         const user = await this.usersRepository.findByEmail(email);
 
-        if (!user) throw new InvalidEmailOrPassword();
+        if (!user) throw new InvalidEmailOrPasswordError();
 
         const comparePassword = await compare(password, user.password);
 
-        if (!comparePassword) throw new InvalidEmailOrPassword();
+        if (!comparePassword) throw new InvalidEmailOrPasswordError();
 
 
         const token = sign({ email: user.email }, Auth.secret, {

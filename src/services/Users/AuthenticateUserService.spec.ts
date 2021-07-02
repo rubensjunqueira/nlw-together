@@ -1,7 +1,7 @@
 import { IAuthenticateUserDTO } from "../../DTOs/Users/IAuthenticateUserDTO";
 import { ICreateUserDTO } from "../../DTOs/Users/ICreateUserDTO";
 import { User } from "../../entities/User";
-import { InvalidEmailOrPassword } from "../../errors/InvalidEmailrOrPassword";
+import { InvalidEmailOrPasswordError } from "../../errors/InvalidEmailrOrPasswordError";
 import { UsersRepositoryInMemory } from "../../repositories/User/inMemory/UsersRepositoryInMemory";
 import { IUsersRepository } from "../../repositories/User/IUsersRepository";
 import { AuthenticateUserService } from "./AuthenticateUserService";
@@ -25,7 +25,7 @@ describe('ListUserService', () => {
         };
 
         await expect(authenticateUserService.execute(data))
-            .rejects.toBeInstanceOf(InvalidEmailOrPassword);
+            .rejects.toBeInstanceOf(InvalidEmailOrPasswordError);
     });
 
     it('should not be able to authenticate an user if password not compare', async () => {
@@ -41,7 +41,7 @@ describe('ListUserService', () => {
         await expect(authenticateUserService.execute({
             email: dataCreatedUser.email,
             password: '4321'
-        })).rejects.toBeInstanceOf(InvalidEmailOrPassword);
+        })).rejects.toBeInstanceOf(InvalidEmailOrPasswordError);
     });
 
     it('should be able to authenticate an user if credentials are right', async () => {

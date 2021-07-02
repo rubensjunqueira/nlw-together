@@ -1,7 +1,7 @@
 import { ICreateUserDTO } from "../../DTOs/Users/ICreateUserDTO";
 import { User } from "../../entities/User";
 import { EmailInvalidError } from "../../errors/EmailInvalidError";
-import { UserAlreadyExists } from "../../errors/UserAlreadyExists";
+import { UserAlreadyExistsError } from "../../errors/UserAlreadyExistsError";
 import { UsersRepositoryInMemory } from "../../repositories/User/inMemory/UsersRepositoryInMemory";
 import { IUsersRepository } from "../../repositories/User/IUsersRepository";
 import { CreateUserService } from "./CreateUserService";
@@ -51,7 +51,7 @@ describe('CreateUserService', () => {
             });
 
         await expect(createUserService.execute(resolveData[0]))
-            .rejects.toBeInstanceOf(UserAlreadyExists);
+            .rejects.toBeInstanceOf(UserAlreadyExistsError);
         expect(spy).toHaveBeenCalled();
         expect(spy).toHaveBeenCalledWith(resolveData[0].email);
         expect(spy.mock.results[0].value).resolves.toEqual(resolveData[0]);

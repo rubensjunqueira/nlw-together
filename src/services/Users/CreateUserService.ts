@@ -3,7 +3,7 @@ import { hash } from "bcrypt";
 import { IUsersRepository } from "../../repositories/User/IUsersRepository";
 import { classToPlain } from "class-transformer";
 import { EmailInvalidError } from "../../errors/EmailInvalidError";
-import { UserAlreadyExists } from "../../errors/UserAlreadyExists";
+import { UserAlreadyExistsError } from "../../errors/UserAlreadyExistsError";
 import { inject, injectable } from "tsyringe";
 
 @injectable()
@@ -15,13 +15,13 @@ export class CreateUserService {
 
     async execute({ name, email, password, admin = false }: ICreateUserDTO): Promise<Record<string, any>> {
         if (!email) {
-            throw new EmailInvalidError('Email Incorrect!');
+            throw new EmailInvalidError();
         }
 
         const userAlreadyExists = await this.usersRepository.findByEmail(email);
 
         if (userAlreadyExists) {
-            throw new UserAlreadyExists(`User ${email} already exists!`);
+            throw new UserAlreadyExistsError(`User ${email} already exists!`);
         }
 
         const hashedPassword = await hash(password, 8);

@@ -1,14 +1,12 @@
 import { inject, injectable } from "tsyringe";
 import { ICreateComplimentDTO } from "../../DTOs/Compliments/ICreateComplimentDTO";
 import { Compliment } from "../../entities/Compliment";
-import { AppError } from "../../errors/AppError";
 import { ReceiverAndSenderAreEqualError } from "../../errors/ReceiverAndSenderAreEqualError";
-import { ReceiverNotExists } from "../../errors/ReceiverNotExists";
-import { TagNotExists } from "../../errors/TagNotExists";
+import { ReceiverNotExistsError } from "../../errors/ReceiverNotExistsError";
+import { TagNotExistsError } from "../../errors/TagNotExistsError";
 import { IComplimentsRepository } from "../../repositories/Compliments/IComplimentsRepository";
 import { ITagsRepository } from "../../repositories/Tags/ITagsRepository";
 import { IUsersRepository } from "../../repositories/User/IUsersRepository";
-import { UsersRepository } from "../../repositories/User/typeorm/UsersRepository";
 
 @injectable()
 export class CreateComplimentService {
@@ -32,11 +30,11 @@ export class CreateComplimentService {
 
         const tagExists = await this.tagsRepository.find(tag_id);
 
-        if (!tagExists) throw new TagNotExists();
+        if (!tagExists) throw new TagNotExistsError();
 
         const receiverExists = await this.usersRepository.find(user_receiver);
 
-        if (!receiverExists) throw new ReceiverNotExists();
+        if (!receiverExists) throw new ReceiverNotExistsError();
 
         const newCompliment = await this.complimentsRepository.create({
             message,
