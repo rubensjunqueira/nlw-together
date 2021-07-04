@@ -1,4 +1,4 @@
 node_modules
 requests
 coverage
-db.sqlite
+src/database/db.sqlite
