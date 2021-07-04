@@ -8,7 +8,7 @@
     "setup": "rm ./src/database/db.sqlite ./src/database/db.test.sqlite && touch ./src/database/db.sqlite ./src/database/db.test.sqlite && yarn typeorm migration:run",
     "dev": "ts-node-dev src/server.ts",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js",
-    "test": "NODE_ENV=test jest"
+    "test": "NODE_ENV=test jest --runInBand --detectOpenHandles --forceExit"
   },
   "devDependencies": {
     "@jest-mock/express": "^1.4.2",

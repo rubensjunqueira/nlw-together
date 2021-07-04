@@ -2,19 +2,21 @@ import { NextFunction, Request, Response } from "express";
 import { verify } from "jsonwebtoken";
 import { Auth } from "../config/Auth";
 import { AppError } from "../errors/AppError";
+import { TokenInvalidFormat } from "../errors/TokenInvalidFormat";
+import { TokenIsMissingError } from "../errors/TokenIsMissingError";
 
 interface IPayload {
     sub: string;
 }
 
-export function ensureAuthenticated(req: Request, res: Response, next: NextFunction) {
+export async function ensureAuthenticated(req: Request, res: Response, next: NextFunction) {
     const authToken = req.headers.authorization;
 
-    if (!authToken) throw new AppError('Token is missing!', 401);
+    if (!authToken) throw new TokenIsMissingError();
 
     const [, token] = authToken.split(' ');
 
-    if (!token) throw new AppError('Token invalid format!');
+    if (!token) throw new TokenInvalidFormat();
 
     try {
         const { sub } = verify(token, Auth.secret) as IPayload;
