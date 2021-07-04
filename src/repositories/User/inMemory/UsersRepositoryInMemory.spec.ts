@@ -2,19 +2,9 @@ import { ICreateUserDTO } from "../../../DTOs/Users/ICreateUserDTO";
 import { User } from "../../../entities/User";
 import { UsersRepositoryInMemory } from "./UsersRepositoryInMemory";
 
-// jest.mock('./UsersRepositoryInMemory');
-
-// const UsersRepositoryInMemoryMock = UsersRepositoryInMemory as jest.Mock<UsersRepositoryInMemory>;
-
-// const factory = () => {
-//     const mock = new UsersRepositoryInMemoryMock() as jest.Mocked<UsersRepositoryInMemory>;
-
-//     return mock;
-// }
-
-let repository: UsersRepositoryInMemory;
-
 describe('UsersRepositoryInMemory', () => {
+    let repository: UsersRepositoryInMemory;
+    
     beforeAll(() => {
         repository = new UsersRepositoryInMemory();
     });
