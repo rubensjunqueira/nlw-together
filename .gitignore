@@ -2,3 +2,4 @@ node_modules
 requests
 coverage
 src/database/db.sqlite
+src/database/db.test.sqlite
