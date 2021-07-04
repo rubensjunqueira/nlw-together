@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { container } from "tsyringe";
 import { ListUserSendedComplimentsService } from "../../services/Users/ListUserSendedComplimentsService";
 
 export class ListUserSendedComplimentsController {
@@ -6,7 +7,7 @@ export class ListUserSendedComplimentsController {
         const { user_id } = req;
 
         const listUserSendedComplimentsService =
-            new ListUserSendedComplimentsService();
+            container.resolve(ListUserSendedComplimentsService);
 
         const compliments = await listUserSendedComplimentsService.execute(user_id);
 
