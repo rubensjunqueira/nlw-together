@@ -1,10 +1,14 @@
-import { EntityRepository, Repository } from "typeorm";
+import { EntityRepository, getRepository, Repository } from "typeorm";
 import { ICreateComplimentDTO } from "../../../DTOs/Compliments/ICreateComplimentDTO";
 import { Compliment } from "../../../entities/Compliment";
 import { IComplimentsRepository } from "../IComplimentsRepository";
 
 export class ComplimentsRepository implements IComplimentsRepository {
     private repository: Repository<Compliment>;
+
+    constructor() {
+        this.repository = getRepository(Compliment);
+    }
 
     async create(data: ICreateComplimentDTO): Promise<Compliment> {
         const newCompliment = this.repository.create(data);
