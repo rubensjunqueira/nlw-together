@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
-import { AppError } from "../errors/AppError";
+import { UnauthorizedError } from "../errors/UnauthorizedError";
+import { UserDoesNotExistsError } from "../errors/UserDoesNotExistsError";
 import { UsersRepository } from "../repositories/User/typeorm/UsersRepository";
 
 export async function ensureAdmin(req: Request, res: Response, next: NextFunction) {
@@ -7,9 +8,11 @@ export async function ensureAdmin(req: Request, res: Response, next: NextFunctio
 
     const usersRepository = new UsersRepository();
 
-    const { admin } = await usersRepository.find(user_id);
+    const user = await usersRepository.find(user_id);
 
-    if (!admin) throw new AppError('Unauthorized', 401);
+    if (!user) throw new UserDoesNotExistsError();
+
+    if (!user.admin) throw new UnauthorizedError('Unauthorized', 401);
 
     return next();
 }
