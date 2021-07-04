@@ -20,7 +20,11 @@ Projeto criado a partir das aulas do programa Next Level Week ([Rocketseat](http
  ```
     yarn setup
  ```
- 5. Inicie a aplicação
+ 5. Executar os testes
+ ```
+   yarn test
+ ```
+ 6. Inicie a aplicação
  ```
     yarn dev
  ```
@@ -36,3 +40,5 @@ Projeto criado a partir das aulas do programa Next Level Week ([Rocketseat](http
 - [JSONWebToken](https://github.com/auth0/node-jsonwebtoken#readme)
 - [SQLite](https://www.sqlite.org/index.html)
 - [Typeorm](https://typeorm.io/#/)
+- [Jest](https://jestjs.io/)
+- [Tsyringe](https://github.com/microsoft/tsyringe)
