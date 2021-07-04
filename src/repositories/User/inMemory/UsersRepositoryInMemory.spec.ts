@@ -4,8 +4,8 @@ import { UsersRepositoryInMemory } from "./UsersRepositoryInMemory";
 
 describe('UsersRepositoryInMemory', () => {
     let repository: UsersRepositoryInMemory;
-    
-    beforeAll(() => {
+
+    beforeEach(() => {
         repository = new UsersRepositoryInMemory();
     });
 
