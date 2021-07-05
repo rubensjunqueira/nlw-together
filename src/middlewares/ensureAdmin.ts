@@ -12,7 +12,7 @@ export async function ensureAdmin(req: Request, res: Response, next: NextFunctio
 
     if (!user) throw new UserDoesNotExistsError();
 
-    if (!user.admin) throw new UnauthorizedError('Unauthorized', 401);
+    if (!user.admin) throw new UnauthorizedError();
 
     return next();
 }
