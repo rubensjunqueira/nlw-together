@@ -44,10 +44,7 @@ describe('ListTagsController', () => {
     it('should not be able to list all tags if user sends a malformed token', async () => {
         const response = await supertest(app)
             .get('/tags')
-            .set({ Authorization: `Bearer 2ed40426-f1f1-5c8b-9e6c-d80bd7a11f6e` })
-            .send({
-                name: 'Ajuda'
-            });
+            .set({ Authorization: `Bearer 2ed40426-f1f1-5c8b-9e6c-d80bd7a11f6e` });
 
         expect(response.status).toBe(401);
         expect(response.body).toMatchObject({
@@ -58,10 +55,7 @@ describe('ListTagsController', () => {
     it('should not be able to list all tags if token signature is invalid', async () => {
         const response = await supertest(app)
             .get('/tags')
-            .set({ Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c` })
-            .send({
-                name: 'Ajuda'
-            });
+            .set({ Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c` });
 
         expect(response.status).toBe(401);
         expect(response.body).toMatchObject({
