@@ -31,6 +31,9 @@ Projeto criado a partir das aulas do programa Next Level Week ([Rocketseat](http
 
  A aplicação estará disponível em http://localhost:3000
 
+ ## 📄 Docs
+ Documentação das rotas da aplicação: http://localhost:3000/docs
+
  ## 🔥 Tecnologias
  Esse projeto foi desenvolvido com as seguintes tecnologias:
 
@@ -42,3 +45,4 @@ Projeto criado a partir das aulas do programa Next Level Week ([Rocketseat](http
 - [Typeorm](https://typeorm.io/#/)
 - [Jest](https://jestjs.io/)
 - [Tsyringe](https://github.com/microsoft/tsyringe)
+- [Swagger](https://swagger.io/)
