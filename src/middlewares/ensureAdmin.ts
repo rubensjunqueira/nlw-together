@@ -1,9 +1,14 @@
-import { NextFunction, Request, Response } from "express";
-import { UnauthorizedError } from "../errors/UnauthorizedError";
-import { UserDoesNotExistsError } from "../errors/UserDoesNotExistsError";
-import { UsersRepository } from "../repositories/User/typeorm/UsersRepository";
+import { NextFunction, Request, Response } from 'express';
 
-export async function ensureAdmin(req: Request, res: Response, next: NextFunction) {
+import { UnauthorizedError } from '../errors/UnauthorizedError';
+import { UserDoesNotExistsError } from '../errors/UserDoesNotExistsError';
+import { UsersRepository } from '../repositories/User/typeorm/UsersRepository';
+
+export async function ensureAdmin(
+    req: Request,
+    res: Response,
+    next: NextFunction
+) {
     const { user_id } = req;
 
     const usersRepository = new UsersRepository();

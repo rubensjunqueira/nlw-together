@@ -1,9 +1,9 @@
-import { Tag } from "../../entities/Tag";
-import { InvalidTagNameError } from "../../errors/InvalidTagNameError";
-import { TagAlreadyExistsError } from "../../errors/TagAlreadyExistsError";
-import { TagsRepositoryInMemory } from "../../repositories/Tags/inMemory/TagsRepositoryInMemory";
-import { ITagsRepository } from "../../repositories/Tags/ITagsRepository";
-import { CreateTagService } from "./CreateTagService";
+import { Tag } from '../../entities/Tag';
+import { InvalidTagNameError } from '../../errors/InvalidTagNameError';
+import { TagAlreadyExistsError } from '../../errors/TagAlreadyExistsError';
+import { TagsRepositoryInMemory } from '../../repositories/Tags/inMemory/TagsRepositoryInMemory';
+import { ITagsRepository } from '../../repositories/Tags/ITagsRepository';
+import { CreateTagService } from './CreateTagService';
 
 describe('CreateTagService', () => {
     let repositoryInMemory: ITagsRepository;
@@ -15,13 +15,15 @@ describe('CreateTagService', () => {
     });
 
     it('should not be able to create a new tag if name is undefined', async () => {
-        await expect(createTagService.execute(undefined))
-            .rejects.toBeInstanceOf(InvalidTagNameError);
+        await expect(
+            createTagService.execute(undefined)
+        ).rejects.toBeInstanceOf(InvalidTagNameError);
     });
 
     it('should not be able to create a new tag if name is empty', async () => {
-        await expect(createTagService.execute(''))
-            .rejects.toBeInstanceOf(InvalidTagNameError);
+        await expect(createTagService.execute('')).rejects.toBeInstanceOf(
+            InvalidTagNameError
+        );
     });
 
     it('should call findByName', async () => {
@@ -41,23 +43,25 @@ describe('CreateTagService', () => {
                 id: '2f4f278a-7366-5a28-b93f-477dadde7271',
                 name: 'Motivação',
                 created_at: new Date(),
-                updated_at: new Date()
+                updated_at: new Date(),
             },
             {
                 id: '89ebc81f-c7ca-56b6-8a5d-9791c3363c3e',
                 name: 'Ajuda',
                 created_at: new Date(),
-                updated_at: new Date()
-            }
+                updated_at: new Date(),
+            },
         ];
 
-        jest.spyOn(repositoryInMemory, 'findByName')
-            .mockImplementation(async (name: string) => {
-                return data.find(x => x.name === name) as Tag;
-            });
+        jest.spyOn(repositoryInMemory, 'findByName').mockImplementation(
+            async (name: string) => {
+                return data.find((x) => x.name === name) as Tag;
+            }
+        );
 
-        await expect(createTagService.execute(data[0].name))
-            .rejects.toBeInstanceOf(TagAlreadyExistsError);
+        await expect(
+            createTagService.execute(data[0].name)
+        ).rejects.toBeInstanceOf(TagAlreadyExistsError);
     });
 
     it('should call create', async () => {

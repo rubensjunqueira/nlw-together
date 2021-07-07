@@ -1,7 +1,7 @@
-import { Tag } from "../../entities/Tag";
-import { TagsRepositoryInMemory } from "../../repositories/Tags/inMemory/TagsRepositoryInMemory";
-import { ITagsRepository } from "../../repositories/Tags/ITagsRepository";
-import { ListTagService } from "./ListTagsService";
+import { Tag } from '../../entities/Tag';
+import { TagsRepositoryInMemory } from '../../repositories/Tags/inMemory/TagsRepositoryInMemory';
+import { ITagsRepository } from '../../repositories/Tags/ITagsRepository';
+import { ListTagService } from './ListTagsService';
 
 describe('ListTagsService', () => {
     let repositoryInMemory: ITagsRepository;
@@ -40,20 +40,19 @@ describe('ListTagsService', () => {
                 id: '2f4f278a-7366-5a28-b93f-477dadde7271',
                 name: 'Motivação',
                 created_at: new Date(),
-                updated_at: new Date()
+                updated_at: new Date(),
             },
             {
                 id: '89ebc81f-c7ca-56b6-8a5d-9791c3363c3e',
                 name: 'Ajuda',
                 created_at: new Date(),
-                updated_at: new Date()
-            }
+                updated_at: new Date(),
+            },
         ];
 
-        jest.spyOn(repositoryInMemory, 'list')
-            .mockImplementation(async () => {
-                return data as Tag[];
-            });
+        jest.spyOn(repositoryInMemory, 'list').mockImplementation(async () => {
+            return data as Tag[];
+        });
 
         const tags = await listTagsService.execute();
 

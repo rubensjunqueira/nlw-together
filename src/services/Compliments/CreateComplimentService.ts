@@ -1,29 +1,30 @@
-import { inject, injectable } from "tsyringe";
-import { ICreateComplimentDTO } from "../../DTOs/Compliments/ICreateComplimentDTO";
-import { Compliment } from "../../entities/Compliment";
-import { ReceiverAndSenderAreEqualError } from "../../errors/ReceiverAndSenderAreEqualError";
-import { ReceiverNotExistsError } from "../../errors/ReceiverNotExistsError";
-import { TagNotExistsError } from "../../errors/TagNotExistsError";
-import { IComplimentsRepository } from "../../repositories/Compliments/IComplimentsRepository";
-import { ITagsRepository } from "../../repositories/Tags/ITagsRepository";
-import { IUsersRepository } from "../../repositories/User/IUsersRepository";
+import { inject, injectable } from 'tsyringe';
+
+import { ICreateComplimentDTO } from '../../DTOs/Compliments/ICreateComplimentDTO';
+import { Compliment } from '../../entities/Compliment';
+import { ReceiverAndSenderAreEqualError } from '../../errors/ReceiverAndSenderAreEqualError';
+import { ReceiverNotExistsError } from '../../errors/ReceiverNotExistsError';
+import { TagNotExistsError } from '../../errors/TagNotExistsError';
+import { IComplimentsRepository } from '../../repositories/Compliments/IComplimentsRepository';
+import { ITagsRepository } from '../../repositories/Tags/ITagsRepository';
+import { IUsersRepository } from '../../repositories/User/IUsersRepository';
 
 @injectable()
 export class CreateComplimentService {
     constructor(
-        @inject("ComplimentsRepository")
+        @inject('ComplimentsRepository')
         private complimentsRepository: IComplimentsRepository,
-        @inject("UsersRepository")
+        @inject('UsersRepository')
         private usersRepository: IUsersRepository,
-        @inject("TagsRepository")
+        @inject('TagsRepository')
         private tagsRepository: ITagsRepository
-    ) { }
+    ) {}
 
     async execute({
         message,
         tag_id,
         user_receiver,
-        user_sender
+        user_sender,
     }: ICreateComplimentDTO): Promise<Compliment> {
         if (user_receiver === user_sender)
             throw new ReceiverAndSenderAreEqualError();
@@ -40,7 +41,7 @@ export class CreateComplimentService {
             message,
             user_receiver,
             user_sender,
-            tag_id
+            tag_id,
         });
 
         return newCompliment;

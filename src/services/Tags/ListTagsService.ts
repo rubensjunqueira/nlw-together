@@ -1,15 +1,14 @@
-import { getCustomRepository } from "typeorm";
 import { classToPlain } from 'class-transformer';
-import { TagsRepository } from "../../repositories/Tags/typeorm/TagsRepository";
-import { inject, injectable } from "tsyringe";
-import { ITagsRepository } from "../../repositories/Tags/ITagsRepository";
+import { inject, injectable } from 'tsyringe';
+
+import { ITagsRepository } from '../../repositories/Tags/ITagsRepository';
 
 @injectable()
 export class ListTagService {
     constructor(
-        @inject("TagsRepository")
+        @inject('TagsRepository')
         private tagsRepository: ITagsRepository
-    ) { }
+    ) {}
 
     async execute(): Promise<Record<string, any>> {
         const tags = await this.tagsRepository.list();

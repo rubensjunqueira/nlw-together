@@ -1,12 +1,13 @@
 import { getMockReq, getMockRes } from '@jest-mock/express';
+import supertest from 'supertest';
 import { getConnection } from 'typeorm';
+
+import { app } from '../app';
 import connect from '../database';
 import { AppError } from '../errors/AppError';
 import { TokenInvalidFormat } from '../errors/TokenInvalidFormat';
 import { TokenIsMissingError } from '../errors/TokenIsMissingError';
 import { ensureAuthenticated } from './ensureAuthenticated';
-import supertest from 'supertest';
-import { app } from '../app';
 
 describe('ensureAdmin', () => {
     const req = getMockReq();
@@ -30,8 +31,9 @@ describe('ensureAdmin', () => {
     });
 
     it('should throw TokenIsMissingError', async () => {
-        await expect(ensureAuthenticated(req, res, next))
-            .rejects.toBeInstanceOf(TokenIsMissingError);
+        await expect(
+            ensureAuthenticated(req, res, next)
+        ).rejects.toBeInstanceOf(TokenIsMissingError);
     });
 
     it('should throw TokenInvalidFormat', async () => {
@@ -39,8 +41,9 @@ describe('ensureAdmin', () => {
 
         req.headers.authorization = token;
 
-        await expect(ensureAuthenticated(req, res, next))
-            .rejects.toBeInstanceOf(TokenInvalidFormat);
+        await expect(
+            ensureAuthenticated(req, res, next)
+        ).rejects.toBeInstanceOf(TokenInvalidFormat);
     });
 
     it('should throw AppError', async () => {
@@ -48,29 +51,28 @@ describe('ensureAdmin', () => {
 
         req.headers.authorization = token;
 
-        await expect(ensureAuthenticated(req, res, next))
-            .rejects.toBeInstanceOf(AppError);
+        await expect(
+            ensureAuthenticated(req, res, next)
+        ).rejects.toBeInstanceOf(AppError);
     });
 
     it('should call next', async () => {
-        const { body: user } = await supertest(app)
-            .post('/users')
-            .send({
-                name: 'Frank Hawkins',
-                email: 'ta@ju.mn',
-                password: '123456',
-            });
+        const { body: user } = await supertest(app).post('/users').send({
+            name: 'Frank Hawkins',
+            email: 'ta@ju.mn',
+            password: '123456',
+        });
 
         const { body: authenticadeUser } = await supertest(app)
             .post('/users/authenticate')
             .send({
                 email: user.email,
-                password: '123456'
+                password: '123456',
             });
 
-        const token = `Bearer ${authenticadeUser.token}`
+        const token = `Bearer ${authenticadeUser.token}`;
         req.headers.authorization = token;
-        
+
         await ensureAuthenticated(req, res, next);
 
         expect(next).toHaveBeenCalled();

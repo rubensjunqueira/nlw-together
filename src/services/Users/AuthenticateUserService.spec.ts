@@ -1,11 +1,11 @@
-import { IAuthenticateUserDTO } from "../../DTOs/Users/IAuthenticateUserDTO";
-import { ICreateUserDTO } from "../../DTOs/Users/ICreateUserDTO";
-import { User } from "../../entities/User";
-import { InvalidEmailOrPasswordError } from "../../errors/InvalidEmailrOrPasswordError";
-import { UsersRepositoryInMemory } from "../../repositories/User/inMemory/UsersRepositoryInMemory";
-import { IUsersRepository } from "../../repositories/User/IUsersRepository";
-import { AuthenticateUserService } from "./AuthenticateUserService";
-import { CreateUserService } from "./CreateUserService";
+import { IAuthenticateUserDTO } from '../../DTOs/Users/IAuthenticateUserDTO';
+import { ICreateUserDTO } from '../../DTOs/Users/ICreateUserDTO';
+import { User } from '../../entities/User';
+import { InvalidEmailOrPasswordError } from '../../errors/InvalidEmailrOrPasswordError';
+import { UsersRepositoryInMemory } from '../../repositories/User/inMemory/UsersRepositoryInMemory';
+import { IUsersRepository } from '../../repositories/User/IUsersRepository';
+import { AuthenticateUserService } from './AuthenticateUserService';
+import { CreateUserService } from './CreateUserService';
 
 describe('ListUserService', () => {
     let repositoryInMemory: IUsersRepository;
@@ -14,18 +14,21 @@ describe('ListUserService', () => {
 
     beforeEach(() => {
         repositoryInMemory = new UsersRepositoryInMemory();
-        authenticateUserService = new AuthenticateUserService(repositoryInMemory);
+        authenticateUserService = new AuthenticateUserService(
+            repositoryInMemory
+        );
         createUserService = new CreateUserService(repositoryInMemory);
     });
 
     it('should not be able to authenticate an user if user is not found', async () => {
         const data: IAuthenticateUserDTO = {
             email: 'hefekwip@ma.ae',
-            password: '1234'
+            password: '1234',
         };
 
-        await expect(authenticateUserService.execute(data))
-            .rejects.toBeInstanceOf(InvalidEmailOrPasswordError);
+        await expect(
+            authenticateUserService.execute(data)
+        ).rejects.toBeInstanceOf(InvalidEmailOrPasswordError);
     });
 
     it('should not be able to authenticate an user if password not compare', async () => {
@@ -33,15 +36,17 @@ describe('ListUserService', () => {
             email: 'hefekwip@ma.ae',
             password: '1234',
             name: 'Antonio Hodges',
-            admin: false
+            admin: false,
         };
 
         await createUserService.execute(dataCreatedUser);
 
-        await expect(authenticateUserService.execute({
-            email: dataCreatedUser.email,
-            password: '4321'
-        })).rejects.toBeInstanceOf(InvalidEmailOrPasswordError);
+        await expect(
+            authenticateUserService.execute({
+                email: dataCreatedUser.email,
+                password: '4321',
+            })
+        ).rejects.toBeInstanceOf(InvalidEmailOrPasswordError);
     });
 
     it('should be able to authenticate an user if credentials are right', async () => {
@@ -49,14 +54,14 @@ describe('ListUserService', () => {
             email: 'hefekwip@ma.ae',
             password: '1234',
             name: 'Antonio Hodges',
-            admin: false
+            admin: false,
         };
 
         await createUserService.execute(dataCreatedUser);
 
         const result = await authenticateUserService.execute({
             email: dataCreatedUser.email,
-            password: dataCreatedUser.password
+            password: dataCreatedUser.password,
         });
 
         expect(result).toMatchObject({
@@ -66,9 +71,9 @@ describe('ListUserService', () => {
                 email: dataCreatedUser.email,
                 admin: dataCreatedUser.admin,
                 created_at: expect.any(Date),
-                updated_at: expect.any(Date)
+                updated_at: expect.any(Date),
             }),
-            token: expect.any(String)
-        })
+            token: expect.any(String),
+        });
     });
 });

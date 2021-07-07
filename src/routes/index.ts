@@ -1,7 +1,8 @@
 import { Router } from 'express';
-import usersRoutes from './usersRoute';
-import tagsRoutes from './tagsRoutes';
+
 import complimentsRoutes from './complimentsRoutes';
+import tagsRoutes from './tagsRoutes';
+import usersRoutes from './usersRoute';
 
 const routes = Router();
 

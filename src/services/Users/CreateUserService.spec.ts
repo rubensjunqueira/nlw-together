@@ -1,10 +1,10 @@
-import { ICreateUserDTO } from "../../DTOs/Users/ICreateUserDTO";
-import { User } from "../../entities/User";
-import { EmailInvalidError } from "../../errors/EmailInvalidError";
-import { UserAlreadyExistsError } from "../../errors/UserAlreadyExistsError";
-import { UsersRepositoryInMemory } from "../../repositories/User/inMemory/UsersRepositoryInMemory";
-import { IUsersRepository } from "../../repositories/User/IUsersRepository";
-import { CreateUserService } from "./CreateUserService";
+import { ICreateUserDTO } from '../../DTOs/Users/ICreateUserDTO';
+import { User } from '../../entities/User';
+import { EmailInvalidError } from '../../errors/EmailInvalidError';
+import { UserAlreadyExistsError } from '../../errors/UserAlreadyExistsError';
+import { UsersRepositoryInMemory } from '../../repositories/User/inMemory/UsersRepositoryInMemory';
+import { IUsersRepository } from '../../repositories/User/IUsersRepository';
+import { CreateUserService } from './CreateUserService';
 
 describe('CreateUserService', () => {
     let repositoryInMemory: IUsersRepository;
@@ -21,8 +21,9 @@ describe('CreateUserService', () => {
             password: 'Uqs3NR',
         };
 
-        await expect(createUserService.execute(userData as ICreateUserDTO))
-            .rejects.toBeInstanceOf(EmailInvalidError);
+        await expect(
+            createUserService.execute(userData as ICreateUserDTO)
+        ).rejects.toBeInstanceOf(EmailInvalidError);
     });
 
     it('should call repository findByEmail with already exists email', async () => {
@@ -42,16 +43,20 @@ describe('CreateUserService', () => {
                 admin: true,
                 created_at: new Date(),
                 updated_at: new Date(),
-            }
-        ]
+            },
+        ];
 
-        const spy = jest.spyOn(repositoryInMemory, 'findByEmail')
+        const spy = jest
+            .spyOn(repositoryInMemory, 'findByEmail')
             .mockImplementation((email: string) => {
-                return Promise.resolve(resolveData.find(x => x.email === email));
+                return Promise.resolve(
+                    resolveData.find((x) => x.email === email)
+                );
             });
 
-        await expect(createUserService.execute(resolveData[0]))
-            .rejects.toBeInstanceOf(UserAlreadyExistsError);
+        await expect(
+            createUserService.execute(resolveData[0])
+        ).rejects.toBeInstanceOf(UserAlreadyExistsError);
         expect(spy).toHaveBeenCalled();
         expect(spy).toHaveBeenCalledWith(resolveData[0].email);
         expect(spy.mock.results[0].value).resolves.toEqual(resolveData[0]);
@@ -64,7 +69,7 @@ describe('CreateUserService', () => {
             name: 'Alexander Rose',
             password: 'Uqs3NR',
             email: 'viruweli@wa.dj',
-            admin: true
+            admin: true,
         };
 
         const resolveData: User[] = [
@@ -83,12 +88,15 @@ describe('CreateUserService', () => {
                 admin: true,
                 created_at: new Date(),
                 updated_at: new Date(),
-            }
-        ]
+            },
+        ];
 
-        const spy = jest.spyOn(repositoryInMemory, 'findByEmail')
+        const spy = jest
+            .spyOn(repositoryInMemory, 'findByEmail')
             .mockImplementation((email: string) => {
-                return Promise.resolve(resolveData.find(x => x.email === email));
+                return Promise.resolve(
+                    resolveData.find((x) => x.email === email)
+                );
             });
 
         await createUserService.execute(userData);
@@ -104,7 +112,7 @@ describe('CreateUserService', () => {
             name: 'Richard Patterson',
             password: '123456',
             email: 'cuf@doko.uy',
-            admin: false
+            admin: false,
         };
 
         const spy = jest.spyOn(repositoryInMemory, 'create');
@@ -114,15 +122,24 @@ describe('CreateUserService', () => {
         expect(spy).toHaveBeenCalled();
         expect(spy).toHaveBeenCalledWith({
             ...userData,
-            password: expect.not.stringMatching(userData.password)
+            password: expect.not.stringMatching(userData.password),
         });
         expect(spy.mock.results[0].value).resolves.toMatchObject({
             ...userData,
-            password: expect.not.stringMatching(userData.password)
+            password: expect.not.stringMatching(userData.password),
         });
-        expect(spy.mock.results[0].value).resolves.toHaveProperty("id", expect.any(String));
-        expect(spy.mock.results[0].value).resolves.toHaveProperty("created_at", expect.any(Date));
-        expect(spy.mock.results[0].value).resolves.toHaveProperty("updated_at", expect.any(Date));
+        expect(spy.mock.results[0].value).resolves.toHaveProperty(
+            'id',
+            expect.any(String)
+        );
+        expect(spy.mock.results[0].value).resolves.toHaveProperty(
+            'created_at',
+            expect.any(Date)
+        );
+        expect(spy.mock.results[0].value).resolves.toHaveProperty(
+            'updated_at',
+            expect.any(Date)
+        );
     });
 
     it('should be able to create a new user', async () => {
@@ -130,7 +147,7 @@ describe('CreateUserService', () => {
             name: 'Lola Gibson',
             email: 'islodih@galuwu.au',
             password: '123456',
-            admin: false
+            admin: false,
         };
 
         const user = await createUserService.execute(userData);
@@ -141,7 +158,7 @@ describe('CreateUserService', () => {
             email: userData.email,
             admin: userData.admin,
             created_at: expect.any(Date),
-            updated_at: expect.any(Date)
+            updated_at: expect.any(Date),
         });
     });
 });

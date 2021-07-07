@@ -1,21 +1,24 @@
-import { compare } from "bcrypt";
-import { IAuthenticateUserDTO } from "../../DTOs/Users/IAuthenticateUserDTO";
+import { compare } from 'bcrypt';
 import { sign } from 'jsonwebtoken';
-import { IAuthenticateUserResponseDTO } from "../../DTOs/Users/IAuthenticateUserResponseDTO";
-import { Auth } from "../../config/Auth";
-import { IUsersRepository } from "../../repositories/User/IUsersRepository";
-import { inject, injectable } from "tsyringe";
-import { InvalidEmailOrPasswordError } from "../../errors/InvalidEmailrOrPasswordError";
+import { inject, injectable } from 'tsyringe';
+
+import { Auth } from '../../config/Auth';
+import { IAuthenticateUserDTO } from '../../DTOs/Users/IAuthenticateUserDTO';
+import { IAuthenticateUserResponseDTO } from '../../DTOs/Users/IAuthenticateUserResponseDTO';
+import { InvalidEmailOrPasswordError } from '../../errors/InvalidEmailrOrPasswordError';
+import { IUsersRepository } from '../../repositories/User/IUsersRepository';
 
 @injectable()
 export class AuthenticateUserService {
     constructor(
-        @inject("UsersRepository")
+        @inject('UsersRepository')
         private usersRepository: IUsersRepository
-    ) { }
+    ) {}
 
-    async execute({ email, password }: IAuthenticateUserDTO)
-        : Promise<IAuthenticateUserResponseDTO> {
+    async execute({
+        email,
+        password,
+    }: IAuthenticateUserDTO): Promise<IAuthenticateUserResponseDTO> {
         const user = await this.usersRepository.findByEmail(email);
 
         if (!user) throw new InvalidEmailOrPasswordError();
@@ -24,17 +27,16 @@ export class AuthenticateUserService {
 
         if (!comparePassword) throw new InvalidEmailOrPasswordError();
 
-
         const token = sign({ email: user.email }, Auth.secret, {
             expiresIn: Auth.expiresIn,
-            subject: user.id
+            subject: user.id,
         });
 
         user.password = undefined;
 
         return {
             user,
-            token
+            token,
         };
     }
 }

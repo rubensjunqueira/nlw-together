@@ -1,14 +1,13 @@
-import { getCustomRepository } from "typeorm";
-import { UsersRepository } from "../../repositories/User/typeorm/UsersRepository";
 import { classToPlain } from 'class-transformer';
-import { inject, injectable } from "tsyringe";
-import { IUsersRepository } from "../../repositories/User/IUsersRepository";
+import { inject, injectable } from 'tsyringe';
+
+import { IUsersRepository } from '../../repositories/User/IUsersRepository';
 
 @injectable()
 export class ListUsersService {
     constructor(
-        @inject("UsersRepository") private usersRepository: IUsersRepository
-    ) { }
+        @inject('UsersRepository') private usersRepository: IUsersRepository
+    ) {}
 
     async execute(): Promise<Record<string, any>> {
         const users = await this.usersRepository.list();

@@ -1,19 +1,25 @@
-import { ICreateUserDTO } from "../../DTOs/Users/ICreateUserDTO";
-import { hash } from "bcrypt";
-import { IUsersRepository } from "../../repositories/User/IUsersRepository";
-import { classToPlain } from "class-transformer";
-import { EmailInvalidError } from "../../errors/EmailInvalidError";
-import { UserAlreadyExistsError } from "../../errors/UserAlreadyExistsError";
-import { inject, injectable } from "tsyringe";
+import { hash } from 'bcrypt';
+import { classToPlain } from 'class-transformer';
+import { inject, injectable } from 'tsyringe';
+
+import { ICreateUserDTO } from '../../DTOs/Users/ICreateUserDTO';
+import { EmailInvalidError } from '../../errors/EmailInvalidError';
+import { UserAlreadyExistsError } from '../../errors/UserAlreadyExistsError';
+import { IUsersRepository } from '../../repositories/User/IUsersRepository';
 
 @injectable()
 export class CreateUserService {
     constructor(
-        @inject("UsersRepository")
+        @inject('UsersRepository')
         private usersRepository: IUsersRepository
-    ) { }
+    ) {}
 
-    async execute({ name, email, password, admin = false }: ICreateUserDTO): Promise<Record<string, any>> {
+    async execute({
+        name,
+        email,
+        password,
+        admin = false,
+    }: ICreateUserDTO): Promise<Record<string, any>> {
         if (!email) {
             throw new EmailInvalidError();
         }
@@ -30,7 +36,7 @@ export class CreateUserService {
             name,
             email,
             password: hashedPassword,
-            admin
+            admin,
         });
 
         return classToPlain(newUser);

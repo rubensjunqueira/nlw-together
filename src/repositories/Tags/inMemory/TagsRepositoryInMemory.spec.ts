@@ -1,5 +1,5 @@
-import { Tag } from "../../../entities/Tag";
-import { TagsRepositoryInMemory } from "./TagsRepositoryInMemory";
+import { Tag } from '../../../entities/Tag';
+import { TagsRepositoryInMemory } from './TagsRepositoryInMemory';
 
 describe('TagsRepositoryInMemory', () => {
     let repository: TagsRepositoryInMemory;
@@ -47,7 +47,7 @@ describe('TagsRepositoryInMemory', () => {
     });
 
     it('should be able to create a new tag', async () => {
-        const name = 'Ajuda'
+        const name = 'Ajuda';
 
         const tag = await repository.create(name);
 
@@ -59,7 +59,7 @@ describe('TagsRepositoryInMemory', () => {
     });
 
     it('should be find an tag by Id', async () => {
-        const name = 'Ajuda'
+        const name = 'Ajuda';
 
         const createdTag = await repository.create(name);
 
@@ -69,13 +69,15 @@ describe('TagsRepositoryInMemory', () => {
     });
 
     it('should not be able to find an tag by Id if id does not exists', async () => {
-        const tag = await repository.find('f5358fd2-1796-57c2-a75d-78a580221fef');
+        const tag = await repository.find(
+            'f5358fd2-1796-57c2-a75d-78a580221fef'
+        );
 
         expect(tag).toBe(undefined);
     });
 
     it('should be find an tag by name', async () => {
-        const name = 'Ajuda'
+        const name = 'Ajuda';
 
         const createdTag = await repository.create(name);
 

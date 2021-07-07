@@ -1,7 +1,7 @@
-import { AppError } from "./AppError";
+import { AppError } from './AppError';
 
 export class ReceiverNotExistsError extends AppError {
-    constructor(message = 'User receiver does not exists!', status = 400){
+    constructor(message = 'User receiver does not exists!', status = 400) {
         super(message, status);
     }
 }

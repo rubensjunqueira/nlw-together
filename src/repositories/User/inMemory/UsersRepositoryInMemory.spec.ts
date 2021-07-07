@@ -1,6 +1,6 @@
-import { ICreateUserDTO } from "../../../DTOs/Users/ICreateUserDTO";
-import { User } from "../../../entities/User";
-import { UsersRepositoryInMemory } from "./UsersRepositoryInMemory";
+import { ICreateUserDTO } from '../../../DTOs/Users/ICreateUserDTO';
+import { User } from '../../../entities/User';
+import { UsersRepositoryInMemory } from './UsersRepositoryInMemory';
 
 describe('UsersRepositoryInMemory', () => {
     let repository: UsersRepositoryInMemory;
@@ -29,7 +29,7 @@ describe('UsersRepositoryInMemory', () => {
                 password: 'LFYza4',
                 admin: true,
                 created_at: new Date(),
-                updated_at: new Date()
+                updated_at: new Date(),
             },
             {
                 name: 'Nell Blair',
@@ -37,8 +37,8 @@ describe('UsersRepositoryInMemory', () => {
                 password: '0S4clW',
                 admin: false,
                 created_at: new Date(),
-                updated_at: new Date()
-            }
+                updated_at: new Date(),
+            },
         ];
 
         jest.spyOn(repository, 'list').mockImplementation(async () => {
@@ -56,7 +56,7 @@ describe('UsersRepositoryInMemory', () => {
             name: 'Anthony Andrews',
             email: 'mup@luum.mx',
             password: 'CR3MVm',
-            admin: true
+            admin: true,
         };
 
         const user = await repository.create(userData);
@@ -77,7 +77,7 @@ describe('UsersRepositoryInMemory', () => {
 
         const user = await repository.create(userData as ICreateUserDTO);
 
-        expect(user).toHaveProperty("admin", false);
+        expect(user).toHaveProperty('admin', false);
     });
 
     it('should be find an user by Id', async () => {
@@ -85,7 +85,7 @@ describe('UsersRepositoryInMemory', () => {
             name: 'Anthony Andrews',
             email: 'mup@luum.mx',
             password: 'CR3MVm',
-            admin: true
+            admin: true,
         };
 
         const createdUser = await repository.create(userData);
@@ -96,7 +96,9 @@ describe('UsersRepositoryInMemory', () => {
     });
 
     it('should not be able to find an user by Id if id does not exists', async () => {
-        const user = await repository.find('f5358fd2-1796-57c2-a75d-78a580221fef');
+        const user = await repository.find(
+            'f5358fd2-1796-57c2-a75d-78a580221fef'
+        );
 
         expect(user).toBe(undefined);
     });
@@ -106,7 +108,7 @@ describe('UsersRepositoryInMemory', () => {
             name: 'Bill Roberts',
             email: 'cezwa@geotiece.ci',
             password: 'CR3MVm',
-            admin: true
+            admin: true,
         };
 
         const createdUser = await repository.create(userData);

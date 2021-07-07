@@ -1,7 +1,7 @@
-import { User } from "../../entities/User";
-import { UsersRepositoryInMemory } from "../../repositories/User/inMemory/UsersRepositoryInMemory";
-import { IUsersRepository } from "../../repositories/User/IUsersRepository";
-import { ListUsersService } from "./ListUsersService";
+import { User } from '../../entities/User';
+import { UsersRepositoryInMemory } from '../../repositories/User/inMemory/UsersRepositoryInMemory';
+import { IUsersRepository } from '../../repositories/User/IUsersRepository';
+import { ListUsersService } from './ListUsersService';
 
 describe('ListUserService', () => {
     let repositoryInMemory: IUsersRepository;
@@ -42,7 +42,7 @@ describe('ListUserService', () => {
                 password: 'LFYza4',
                 admin: true,
                 created_at: new Date(),
-                updated_at: new Date()
+                updated_at: new Date(),
             },
             {
                 name: 'Nell Blair',
@@ -50,14 +50,13 @@ describe('ListUserService', () => {
                 password: '0S4clW',
                 admin: false,
                 created_at: new Date(),
-                updated_at: new Date()
-            }
+                updated_at: new Date(),
+            },
         ];
 
-        jest.spyOn(repositoryInMemory, 'list')
-            .mockImplementation(async () => {
-                return data;
-            });
+        jest.spyOn(repositoryInMemory, 'list').mockImplementation(async () => {
+            return data;
+        });
 
         const users = await listUsersService.execute();
 

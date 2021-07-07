@@ -1,11 +1,12 @@
 import { getMockReq, getMockRes } from '@jest-mock/express';
+import supertest from 'supertest';
 import { getConnection } from 'typeorm';
+
+import { app } from '../app';
 import connect from '../database';
 import { UnauthorizedError } from '../errors/UnauthorizedError';
 import { UserDoesNotExistsError } from '../errors/UserDoesNotExistsError';
 import { ensureAdmin } from './ensureAdmin';
-import supertest from 'supertest';
-import { app } from '../app';
 
 describe('ensureAdmin', () => {
     const req = getMockReq();
@@ -26,39 +27,36 @@ describe('ensureAdmin', () => {
     afterAll(async () => {
         const connection = getConnection();
         await connection.close();
-    })
+    });
 
     it('should throw UserDoesNotExists', async () => {
-        await expect(ensureAdmin(req, res, next))
-            .rejects.toBeInstanceOf(UserDoesNotExistsError);
+        await expect(ensureAdmin(req, res, next)).rejects.toBeInstanceOf(
+            UserDoesNotExistsError
+        );
     });
 
     it('should throw UnauthorizedError', async () => {
-        const { body: user } = await supertest(app)
-            .post('/users')
-            .send({
-                name: 'Inez Lee',
-                password: '123456',
-                email: 'lizibvef@tovgo.vg',
-                admin: false
-            });
+        const { body: user } = await supertest(app).post('/users').send({
+            name: 'Inez Lee',
+            password: '123456',
+            email: 'lizibvef@tovgo.vg',
+            admin: false,
+        });
 
         req.user_id = user.id;
 
-
-        await expect(ensureAdmin(req, res, next))
-            .rejects.toBeInstanceOf(UnauthorizedError);
+        await expect(ensureAdmin(req, res, next)).rejects.toBeInstanceOf(
+            UnauthorizedError
+        );
     });
 
     it('shoud call next if user is an admin', async () => {
-        const { body: user } = await supertest(app)
-            .post('/users')
-            .send({
-                name: 'Inez Lee',
-                password: '123456',
-                email: 'lizibvef@tovgo.vg',
-                admin: true
-            });
+        const { body: user } = await supertest(app).post('/users').send({
+            name: 'Inez Lee',
+            password: '123456',
+            email: 'lizibvef@tovgo.vg',
+            admin: true,
+        });
 
         req.user_id = user.id;
 

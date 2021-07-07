@@ -1,6 +1,7 @@
-import { Request, Response } from "express";
-import { container } from "tsyringe";
-import { ListTagService } from "../../services/Tags/ListTagsService";
+import { Request, Response } from 'express';
+import { container } from 'tsyringe';
+
+import { ListTagService } from '../../services/Tags/ListTagsService';
 
 export class ListTagsController {
     async handle(req: Request, res: Response): Promise<Response> {

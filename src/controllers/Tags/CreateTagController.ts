@@ -1,6 +1,7 @@
-import { Response, Request } from "express";
-import { container } from "tsyringe";
-import { CreateTagService } from "../../services/Tags/CreateTagService";
+import { Response, Request } from 'express';
+import { container } from 'tsyringe';
+
+import { CreateTagService } from '../../services/Tags/CreateTagService';
 
 export class CreateTagController {
     async handle(req: Request, res: Response): Promise<Response> {

@@ -1,15 +1,20 @@
-import { ICreateUserDTO } from "../../../DTOs/Users/ICreateUserDTO";
-import { User } from "../../../entities/User";
-import { IUsersRepository } from "../IUsersRepository";
+import { ICreateUserDTO } from '../../../DTOs/Users/ICreateUserDTO';
+import { User } from '../../../entities/User';
+import { IUsersRepository } from '../IUsersRepository';
 
 export class UsersRepositoryInMemory implements IUsersRepository {
-    private repository: User[] = []
+    private repository: User[] = [];
 
     async list(): Promise<User[]> {
         return this.repository;
     }
 
-    async create({ name, email, password, admin = false }: ICreateUserDTO): Promise<User> {
+    async create({
+        name,
+        email,
+        password,
+        admin = false,
+    }: ICreateUserDTO): Promise<User> {
         const newUser = new User();
 
         Object.assign<User, User>(newUser, {
@@ -27,10 +32,10 @@ export class UsersRepositoryInMemory implements IUsersRepository {
     }
 
     async find(id: string): Promise<User> {
-        return this.repository.find(x => x.id === id);
+        return this.repository.find((x) => x.id === id);
     }
 
     async findByEmail(email: string): Promise<User> {
-        return this.repository.find(x => x.email === email);
+        return this.repository.find((x) => x.email === email);
     }
 }

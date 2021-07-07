@@ -1,4 +1,4 @@
-import { AppError } from "./AppError";
+import { AppError } from './AppError';
 
 export class TagAlreadyExistsError extends AppError {
     constructor(message: string, status = 400) {

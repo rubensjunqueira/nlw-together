@@ -1,7 +1,7 @@
-import { Compliment } from "../../entities/Compliment";
-import { IComplimentsRepository } from "../../repositories/Compliments/IComplimentsRepository";
-import { ComplimentsRepositoryInMemory } from "../../repositories/Compliments/inMemory/ComplimentsRepositoryInMemory";
-import { ListUserSendedComplimentsService } from "./ListUserSendedComplimentsService";
+import { Compliment } from '../../entities/Compliment';
+import { IComplimentsRepository } from '../../repositories/Compliments/IComplimentsRepository';
+import { ComplimentsRepositoryInMemory } from '../../repositories/Compliments/inMemory/ComplimentsRepositoryInMemory';
+import { ListUserSendedComplimentsService } from './ListUserSendedComplimentsService';
 
 describe('ListUserSendedCompliment', () => {
     let repositoryInMemory: IComplimentsRepository;
@@ -9,7 +9,9 @@ describe('ListUserSendedCompliment', () => {
 
     beforeEach(() => {
         repositoryInMemory = new ComplimentsRepositoryInMemory();
-        listUserSendedCompliments = new ListUserSendedComplimentsService(repositoryInMemory);
+        listUserSendedCompliments = new ListUserSendedComplimentsService(
+            repositoryInMemory
+        );
     });
 
     it('should call findByUserSended', async () => {
@@ -31,7 +33,7 @@ describe('ListUserSendedCompliment', () => {
                 tag_id: '3b87f75e-17ea-5d5c-9155-cf5921a9aa53',
                 user_receiver: '0202d965-8f11-505e-9ed9-ffa3ba54a6a7',
                 user_sender: '5935f234-4056-5220-9ef9-989427820325',
-                created_at: new Date()
+                created_at: new Date(),
             },
             {
                 id: 'ea3d4eac-54ef-5895-adfb-d5b4b4a74d17',
@@ -40,13 +42,16 @@ describe('ListUserSendedCompliment', () => {
                 user_receiver: '0202d965-8f11-505e-9ed9-ffa3ba54a6a7',
                 user_sender: '5935f234-4056-5220-9ef9-989427820325',
                 created_at: new Date(),
-            }
+            },
         ];
 
-        jest.spyOn(repositoryInMemory, 'findByUserSender')
-            .mockImplementation(async (user_sender: string) => {
-                return data.filter(x => x.user_receiver === user_sender) as Compliment[];
-            });
+        jest.spyOn(repositoryInMemory, 'findByUserSender').mockImplementation(
+            async (user_sender: string) => {
+                return data.filter(
+                    (x) => x.user_receiver === user_sender
+                ) as Compliment[];
+            }
+        );
 
         const id = '0202d965-8f11-505e-9ed9-ffa3ba54a6a7';
 
@@ -60,7 +65,7 @@ describe('ListUserSendedCompliment', () => {
             tag_id: expect.any(String),
             user_receiver: expect.any(String),
             user_sender: expect.any(String),
-            created_at: expect.any(Date)
+            created_at: expect.any(Date),
         });
     });
 });

@@ -1,6 +1,6 @@
-import { ICreateComplimentDTO } from "../../../DTOs/Compliments/ICreateComplimentDTO";
-import { Compliment } from "../../../entities/Compliment";
-import { ComplimentsRepositoryInMemory } from "./ComplimentsRepositoryInMemory";
+import { ICreateComplimentDTO } from '../../../DTOs/Compliments/ICreateComplimentDTO';
+import { Compliment } from '../../../entities/Compliment';
+import { ComplimentsRepositoryInMemory } from './ComplimentsRepositoryInMemory';
 
 describe('ComplimentsRepositoryInMemory', () => {
     let repository: ComplimentsRepositoryInMemory;
@@ -14,7 +14,7 @@ describe('ComplimentsRepositoryInMemory', () => {
             message: 'Alguma coisa',
             tag_id: 'd222e73f-7a46-5883-9f59-b5ac2b9fe7ef',
             user_receiver: '5181a79c-5ef4-5261-b281-77de6b6516e2',
-            user_sender: '0f6f9f1c-201a-5109-80d6-282825fdefed'
+            user_sender: '0f6f9f1c-201a-5109-80d6-282825fdefed',
         };
 
         const compliment = await repository.create(complimentData);
@@ -53,18 +53,22 @@ describe('ComplimentsRepositoryInMemory', () => {
                 message: 'Alguma coisa 2',
                 created_at: new Date(),
             },
-        ]
+        ];
 
-        jest.spyOn(repository, 'findByUserReceiver')
-            .mockImplementation(async (user_receiver: string) => {
-                return resolveData
-                    .filter(x => x.user_receiver === user_receiver) as Compliment[];
-            });
+        jest.spyOn(repository, 'findByUserReceiver').mockImplementation(
+            async (user_receiver: string) => {
+                return resolveData.filter(
+                    (x) => x.user_receiver === user_receiver
+                ) as Compliment[];
+            }
+        );
 
-        const compliments = await repository.findByUserReceiver(commonUserReceiver);
+        const compliments = await repository.findByUserReceiver(
+            commonUserReceiver
+        );
 
         expect(compliments.length).toBe(2);
-        compliments.forEach(x => {
+        compliments.forEach((x) => {
             expect(x.user_receiver).toEqual(commonUserReceiver);
         });
     });
@@ -97,18 +101,20 @@ describe('ComplimentsRepositoryInMemory', () => {
                 message: 'Alguma coisa 2',
                 created_at: new Date(),
             },
-        ]
+        ];
 
-        jest.spyOn(repository, 'findByUserSender')
-            .mockImplementation(async (user_sender: string) => {
-                return resolveData
-                    .filter(x => x.user_sender === user_sender) as Compliment[];
-            });
+        jest.spyOn(repository, 'findByUserSender').mockImplementation(
+            async (user_sender: string) => {
+                return resolveData.filter(
+                    (x) => x.user_sender === user_sender
+                ) as Compliment[];
+            }
+        );
 
         const compliments = await repository.findByUserSender(commonUserSender);
 
         expect(compliments.length).toBe(2);
-        compliments.forEach(x => {
+        compliments.forEach((x) => {
             expect(x.user_sender).toEqual(commonUserSender);
         });
     });

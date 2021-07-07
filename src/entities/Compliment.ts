@@ -4,13 +4,14 @@ import {
     Entity,
     JoinColumn,
     ManyToOne,
-    PrimaryColumn
-} from "typeorm";
-import { v4 as uuid } from "uuid";
-import { Tag } from "./Tag";
-import { User } from "./User";
+    PrimaryColumn,
+} from 'typeorm';
+import { v4 as uuid } from 'uuid';
 
-@Entity("compliments")
+import { Tag } from './Tag';
+import { User } from './User';
+
+@Entity('compliments')
 export class Compliment {
     @PrimaryColumn()
     readonly id?: string;
@@ -31,15 +32,15 @@ export class Compliment {
     created_at: Date;
 
     @ManyToOne(() => Tag)
-    @JoinColumn({ name: "tag_id" })
+    @JoinColumn({ name: 'tag_id' })
     tags: Tag;
 
     @ManyToOne(() => User)
-    @JoinColumn({ name: "user_sender" })
+    @JoinColumn({ name: 'user_sender' })
     userSender = User;
 
     @ManyToOne(() => User)
-    @JoinColumn({ name: "user_receiver" })
+    @JoinColumn({ name: 'user_receiver' })
     userReceiver = User;
 
     constructor() {

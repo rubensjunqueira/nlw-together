@@ -1,5 +1,5 @@
-import { Tag } from "../../../entities/Tag";
-import { ITagsRepository } from "../ITagsRepository";
+import { Tag } from '../../../entities/Tag';
+import { ITagsRepository } from '../ITagsRepository';
 
 export class TagsRepositoryInMemory implements ITagsRepository {
     private repository: Tag[] = [];
@@ -15,7 +15,7 @@ export class TagsRepositoryInMemory implements ITagsRepository {
             name,
             created_at: new Date(),
             updated_at: new Date(),
-        })
+        });
 
         this.repository.push(newTag);
 
@@ -23,10 +23,10 @@ export class TagsRepositoryInMemory implements ITagsRepository {
     }
 
     async find(id: string): Promise<Tag> {
-        return this.repository.find(x => x.id === id);
+        return this.repository.find((x) => x.id === id);
     }
 
     async findByName(name: string): Promise<Tag> {
-        return this.repository.find(x => x.name === name);
+        return this.repository.find((x) => x.name === name);
     }
 }

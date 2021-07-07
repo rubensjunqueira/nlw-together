@@ -1,6 +1,7 @@
-import { getRepository, Repository } from "typeorm";
-import { Tag } from "../../../entities/Tag";
-import { ITagsRepository } from "../ITagsRepository";
+import { getRepository, Repository } from 'typeorm';
+
+import { Tag } from '../../../entities/Tag';
+import { ITagsRepository } from '../ITagsRepository';
 
 export class TagsRepository implements ITagsRepository {
     private repository: Repository<Tag>;

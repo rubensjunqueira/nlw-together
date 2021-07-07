@@ -1,6 +1,6 @@
-import { ICreateComplimentDTO } from "../../../DTOs/Compliments/ICreateComplimentDTO";
-import { Compliment } from "../../../entities/Compliment";
-import { IComplimentsRepository } from "../IComplimentsRepository";
+import { ICreateComplimentDTO } from '../../../DTOs/Compliments/ICreateComplimentDTO';
+import { Compliment } from '../../../entities/Compliment';
+import { IComplimentsRepository } from '../IComplimentsRepository';
 
 export class ComplimentsRepositoryInMemory implements IComplimentsRepository {
     private repository: Compliment[] = [];
@@ -22,10 +22,10 @@ export class ComplimentsRepositoryInMemory implements IComplimentsRepository {
     }
 
     async findByUserSender(user_sender: string): Promise<Compliment[]> {
-        return this.repository.filter(x => x.user_sender === user_sender);
+        return this.repository.filter((x) => x.user_sender === user_sender);
     }
 
     async findByUserReceiver(user_receiver: string): Promise<Compliment[]> {
-        return this.repository.filter(x => x.user_receiver === user_receiver);
+        return this.repository.filter((x) => x.user_receiver === user_receiver);
     }
 }
